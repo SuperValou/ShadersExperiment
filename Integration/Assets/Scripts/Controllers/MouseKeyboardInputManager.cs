@@ -4,6 +4,7 @@ namespace Assets.Scripts.Controllers
 {
     public class MouseKeyboardInputManager : AbstractInputManager
     {
+        // -- Editor
         [Header("Mouse")]
         public CursorLockMode cursorLockMode = CursorLockMode.Locked;
         public float mouseSensitivity = 12;
@@ -11,6 +12,7 @@ namespace Assets.Scripts.Controllers
         [Header("Keyboard")]
         public float keyboardSensitivity = 1f;
 
+        // -- Class
         // Mouse
         private const string MouseHorizontalAxisName = "Mouse X";
         private const string MouseVerticalAxisName = "Mouse Y";
@@ -23,6 +25,8 @@ namespace Assets.Scripts.Controllers
         private const string KeyboardRunButtonName = "Run";
         private const string KeyboardJumpButtonName = "Jump";
 
+        // Controls
+        private const KeyCode xrayKeyCode = KeyCode.R;
 
         void Start()
         {
@@ -80,6 +84,11 @@ namespace Assets.Scripts.Controllers
         public override bool JumpButtonDown()
         {
             return Input.GetButtonDown(KeyboardJumpButtonName);
+        }
+
+        public override bool XrayKeyDown()
+        {
+            return Input.GetKeyDown(xrayKeyCode);
         }
     }
 }

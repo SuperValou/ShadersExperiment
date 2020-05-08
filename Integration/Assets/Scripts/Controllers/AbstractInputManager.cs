@@ -31,7 +31,10 @@ namespace Assets.Scripts.Controllers
 
         public abstract bool RunButtonDown();
         public abstract bool RunButton();
+
         public abstract bool JumpButton();
         public abstract bool JumpButtonDown();
+
+        public abstract bool XrayKeyDown();
     }
 }
