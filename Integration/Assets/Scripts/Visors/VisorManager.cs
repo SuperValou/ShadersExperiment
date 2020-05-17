@@ -6,17 +6,25 @@ namespace Assets.Scripts.Rendering
 {
     public class VisorManager : MonoBehaviour
     {
-        public Material xrayPostProcessMaterial;
+        public Shader xrayReplacementShader;
         
         [Header("References")]
         public AbstractInputManager inputManager;
-        public Camera visorCamera;
+        public Camera playerEyes;
+        public Camera weakpointHighlightCamera;
 
         // --
         public VisorMode VisorMode { get; private set; }
 
         public event Action<VisorMode> OnVisorStateChange;
-        
+
+        void Start()
+        {
+            if (weakpointHighlightCamera.clearFlags != CameraClearFlags.Depth)
+            {
+                Debug.LogWarning($"Weakpoint highlighting camera has ClearFlags set to {weakpointHighlightCamera.clearFlags}");
+            }
+        }
 
         void Update()
         {
@@ -24,15 +32,19 @@ namespace Assets.Scripts.Rendering
             {
                 if (VisorMode == VisorMode.Xray)
                 {
-                    visorCamera.ResetReplacementShader();
-                    visorCamera.clearFlags = CameraClearFlags.Skybox;
+                    playerEyes.ResetReplacementShader();
+                    playerEyes.clearFlags = CameraClearFlags.Skybox;
+
+                    weakpointHighlightCamera.gameObject.SetActive(false);
 
                     VisorMode = VisorMode.Normal;
                 }
                 else
-                {
-                    visorCamera.SetReplacementShader(xrayPostProcessMaterial.shader, "");
-                    visorCamera.clearFlags = CameraClearFlags.SolidColor;
+                { 
+                    playerEyes.SetReplacementShader(xrayReplacementShader, string.Empty);
+                    playerEyes.clearFlags = CameraClearFlags.SolidColor;
+                    
+                    weakpointHighlightCamera.gameObject.SetActive(true);
 
                     VisorMode = VisorMode.Xray;
                 }

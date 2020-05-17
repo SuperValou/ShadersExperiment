@@ -9,7 +9,12 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "VisorSurface" = "Real"}
+        Tags 
+		{
+			"RenderType"="Opaque"
+			"VisorSurface" = "Real"
+		}
+
         LOD 200
 
         CGPROGRAM
