@@ -7,27 +7,34 @@ namespace Assets.Scripts.Rendering
     public class VisorManager : MonoBehaviour
     {
         public Shader xrayReplacementShader;
+        public Shader weakpointHighlightReplacementShader;
         
         [Header("References")]
         public AbstractInputManager inputManager;
+
         public Camera playerEyes;
         public Camera weakpointHighlightCamera;
 
         // --
         public VisorMode VisorMode { get; private set; }
 
-        public event Action<VisorMode> OnVisorStateChange;
+        public bool VisorStateChange { get; private set; }
 
         void Start()
         {
             if (weakpointHighlightCamera.clearFlags != CameraClearFlags.Depth)
             {
-                Debug.LogWarning($"Weakpoint highlighting camera has ClearFlags set to {weakpointHighlightCamera.clearFlags}");
+                Debug.LogWarning($"Camera '{weakpointHighlightCamera.name}' should have Clear Flags set to '{CameraClearFlags.Depth}', " +
+                                 $"but has '{weakpointHighlightCamera.clearFlags}' instead.");
             }
+
+            weakpointHighlightCamera.SetReplacementShader(weakpointHighlightReplacementShader, string.Empty);
         }
 
         void Update()
         {
+            VisorStateChange = false;
+
             if (inputManager.XrayKeyDown())
             {
                 if (VisorMode == VisorMode.Xray)
@@ -49,7 +56,7 @@ namespace Assets.Scripts.Rendering
                     VisorMode = VisorMode.Xray;
                 }
 
-                OnVisorStateChange?.Invoke(VisorMode);
+                VisorStateChange = true;
             }
         }
 

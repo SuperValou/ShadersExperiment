@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Assets.Scripts.Rendering;
 using UnityEngine;
 
@@ -29,7 +28,14 @@ namespace Assets.Visors
             }
 
             UpdateVisibility(VisorManager.VisorMode);
-            VisorManager.OnVisorStateChange += UpdateVisibility;
+        }
+
+        void Update()
+        {
+            if (VisorManager.VisorStateChange)
+            {
+                UpdateVisibility(VisorManager.VisorMode);
+            }
         }
 
         protected virtual void UpdateVisibility(VisorMode visorMode)
@@ -50,11 +56,6 @@ namespace Assets.Visors
                     meshRenderer.Key.material = meshRenderer.Value;
                 }
             }
-        }
-
-        void OnDestroy()
-        {
-            VisorManager.OnVisorStateChange -= UpdateVisibility;
         }
     }
 }

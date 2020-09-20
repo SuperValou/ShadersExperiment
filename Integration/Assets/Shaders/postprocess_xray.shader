@@ -6,17 +6,20 @@
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" "IgnoreProjector" = "True" "VisorSurface" = "Real" "Baboulinet" = "Monsieur"}
+        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" "IgnoreProjector" = "True" }
 		ZWrite Off
 		LOD 100
 		Blend One One
-		Pass
+
+		Pass		
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+			sampler2D _MainTex;
 
             struct appdata
             {
@@ -40,13 +43,14 @@
                 return o;
             }
 
-            sampler2D _MainTex;
+            
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                float4 clip = i.screenPos / i.screenPos.w;
-				return fixed4(0.6, 0.6, 0.6, 1) * smoothstep(0, 0.05, clip.z);
-            }
+            fixed4 frag(v2f i) : SV_Target
+			{
+				float4 clip = i.screenPos / i.screenPos.w;
+				return fixed4(1, 1, 1, 1) * smoothstep(0, 0.1, clip.z);
+			}
+
             ENDCG
         }
     }

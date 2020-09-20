@@ -3,7 +3,6 @@
     public enum VisorMode
     {
         Normal,
-        Xray,
-        Magnetic
+        Xray
     }
 }
