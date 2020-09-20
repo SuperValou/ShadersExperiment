@@ -112,18 +112,10 @@ namespace UnityTemplateProjects
             return direction;
         }
         
-		public static bool TheVisorIsActive { get; private set; } = false;
-		
         void Update()
         {
             Vector3 translation = Vector3.zero;
 			
-			if (Input.GetKeyDown(KeyCode.V))
-            {
-                TheVisorIsActive = !TheVisorIsActive;
-				Debug.Log("Visor: " + TheVisorIsActive);
-            }
-
 #if ENABLE_LEGACY_INPUT_MANAGER
 
             // Exit Sample  
